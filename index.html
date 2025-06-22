@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HJ Tihan - Portfolio</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#00BFFF',secondary:'#0A1128'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background-color: #0A1128;
+color: #fff;
+}
+h1, h2, h3, h4, h5, h6 {
+font-family: 'Montserrat', sans-serif;
+}
+.glass {
+background: rgba(255, 255, 255, 0.05);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.neon-border {
+box-shadow: 0 0 5px rgba(0, 191, 255, 0.5),
+0 0 10px rgba(0, 191, 255, 0.3);
+}
+.gradient-bg {
+background: linear-gradient(135deg, #0A1128 0%, #001F54 50%, #034078 100%);
+}
+.gradient-text {
+background: linear-gradient(90deg, #00BFFF, #00FFFF);
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+}
+.typing-cursor {
+display: inline-block;
+width: 2px;
+height: 1em;
+background-color: #00BFFF;
+margin-left: 2px;
+animation: blink 1s infinite;
+}
+@keyframes blink {
+0%, 100% { opacity: 1; }
+50% { opacity: 0; }
+}
+.project-card {
+transition: transform 0.5s, box-shadow 0.5s;
+}
+.project-card:hover {
+transform: translateY(-10px);
+box-shadow: 0 10px 20px rgba(0, 191, 255, 0.2);
+}
+.skill-progress {
+position: relative;
+height: 6px;
+background: rgba(255, 255, 255, 0.1);
+border-radius: 3px;
+overflow: hidden;
+}
+.skill-progress-bar {
+height: 100%;
+background: linear-gradient(90deg, #00BFFF, #00FFFF);
+border-radius: 3px;
+}
+input, textarea {
+background: rgba(255, 255, 255, 0.05);
+border: 1px solid rgba(255, 255, 255, 0.1);
+color: white;
+}
+input:focus, textarea:focus {
+border-color: #00BFFF;
+outline: none;
+box-shadow: 0 0 0 2px rgba(0, 191, 255, 0.2);
+}
+.custom-switch {
+position: relative;
+display: inline-block;
+width: 50px;
+height: 24px;
+}
+.custom-switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.switch-slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: rgba(255, 255, 255, 0.1);
+transition: .4s;
+border-radius: 34px;
+}
+.switch-slider:before {
+position: absolute;
+content: "";
+height: 18px;
+width: 18px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .switch-slider {
+background-color: #00BFFF;
+}
+input:checked + .switch-slider:before {
+transform: translateX(26px);
+}
+.particles {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+pointer-events: none;
+z-index: -1;
+}
+.particle {
+position: absolute;
+background: radial-gradient(circle, rgba(0, 191, 255, 0.8) 0%, rgba(0, 191, 255, 0) 70%);
+border-radius: 50%;
+opacity: 0.5;
+}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<header class="fixed top-0 w-full z-50 glass">
+<div class="container mx-auto px-6 py-4 flex justify-between items-center">
+<a href="#" class="text-2xl font-['Pacifico'] gradient-text">TihanVerse</a>
+<div class="hidden md:flex items-center space-x-8">
+<a href="#home" class="text-white hover:text-primary transition-colors">Home</a>
+<a href="#about" class="text-white hover:text-primary transition-colors">About</a>
+<a href="#projects" class="text-white hover:text-primary transition-colors">Projects</a>
+<a href="#contact" class="text-white hover:text-primary transition-colors">Contact</a>
+</div>
+<button class="md:hidden w-10 h-10 flex items-center justify-center text-white" id="mobile-menu-button">
+<i class="ri-menu-line ri-lg"></i>
+</button>
+</div>
+<div class="md:hidden glass absolute w-full transform scale-y-0 origin-top transition-transform duration-300" id="mobile-menu">
+<div class="container mx-auto px-6 py-4 flex flex-col space-y-4">
+<a href="#home" class="text-white hover:text-primary transition-colors">Home</a>
+<a href="#about" class="text-white hover:text-primary transition-colors">About</a>
+<a href="#projects" class="text-white hover:text-primary transition-colors">Projects</a>
+<a href="#contact" class="text-white hover:text-primary transition-colors">Contact</a>
+</div>
+</div>
+</header>
+<section id="home" class="min-h-screen flex items-center relative overflow-hidden pt-20">
+<div class="absolute inset-0 z-0" style="background-image: url('https://readdy.ai/api/search-image?query=dark%20futuristic%20digital%20landscape%20with%20deep%20blue%20and%20cyan%20neon%20lights%2C%20abstract%20technology%20background%20with%20glowing%20grid%20lines%20and%20particles%2C%20modern%20cyberpunk%20style%2C%20perfect%20for%20web%20background%2C%20professional%20high-quality%20digital%20art&width=1920&height=1080&seq=hero-bg&orientation=landscape'); background-size: cover; background-position: center; opacity: 0.7;"></div>
+<div class="container mx-auto px-6 relative z-10">
+<div class="flex flex-col md:flex-row items-center">
+<div class="w-full md:w-1/2 mb-10 md:mb-0">
+<h1 class="text-4xl md:text-6xl font-bold mb-4">Hi, I'm <span class="gradient-text">Horram Jawad Tihan</span></h1>
+<div class="text-xl md:text-2xl mb-6 text-gray-300" id="typing-text">
+Product Manager | Flutter Enthusiast
+</div>
+<p class="text-lg mb-8 text-gray-300 max-w-lg">
+Combining product strategy with technical expertise to create impactful digital solutions that users love.
+</p>
+<div class="flex flex-wrap gap-4">
+<a href="#projects" class="px-6 py-3 bg-primary text-white font-medium !rounded-button hover:bg-opacity-80 transition-all whitespace-nowrap">
+View Projects
+</a>
+<a href="#contact" class="px-6 py-3 glass text-white font-medium !rounded-button hover:border-primary neon-border transition-all whitespace-nowrap">
+Contact Me
+</a>
+</div>
+</div>
+<div class="w-full md:w-1/2 flex justify-center">
+<div class="relative w-80 h-80">
+<div class="absolute inset-0 glass !rounded-full neon-border overflow-hidden">
+<img src="https://static.readdy.ai/image/6c9435fad3a4733b8472490cfa0ee0a8/95dc46367afd13a07ef4cad734eeca6e.jpeg" alt="HJ Tihan" class="w-full h-full object-cover object-top">
+</div>
+<div class="absolute -top-4 -right-4 glass !rounded-full p-4 neon-border w-16 h-16 flex items-center justify-center">
+<i class="ri-flutter-fill ri-lg text-primary"></i>
+</div>
+<div class="absolute -bottom-4 -left-4 glass !rounded-full p-4 neon-border w-16 h-16 flex items-center justify-center">
+<i class="ri-firebase-fill ri-lg text-primary"></i>
+</div>
+<div class="absolute -bottom-4 -right-4 glass !rounded-full p-4 neon-border w-16 h-16 flex items-center justify-center">
+<i class="ri-nextjs-fill ri-lg text-primary"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="about" class="py-20 relative">
+<div class="container mx-auto px-6">
+<h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+<span class="gradient-text">About Me</span>
+</h2>
+<div class="glass p-8 !rounded-lg neon-border">
+<div class="flex flex-col md:flex-row gap-10">
+<div class="w-full md:w-1/2">
+<h3 class="text-2xl font-semibold mb-6">Horram Jawad Tihan</h3>
+<p class="text-gray-300 mb-6 leading-relaxed">
+I'm a passionate and experienced Product Manager with over 3 years leading successful digital projects. Recently, I have begun expanding my skills into software development, focusing on Flutter, Dart, and modern web technologies like Next.js and Firebase.
+</p>
+<p class="text-gray-300 mb-6 leading-relaxed">
+My background in product strategy and team leadership gives me a unique perspective on software development, helping me create user-centric, high-quality products. I am committed to continuous learning and bridging the gap between product vision and technical execution.
+</p>
+<p class="text-gray-300 leading-relaxed">
+I believe that combining strong product management with hands-on development skills is key to delivering innovative and impactful digital experiences.
+</p>
+</div>
+<div class="w-full md:w-1/2">
+<h3 class="text-xl font-semibold mb-6">Key Strengths</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="glass p-6 !rounded-lg hover:neon-border transition-all">
+<div class="w-12 h-12 flex items-center justify-center mb-4 glass !rounded-full text-primary">
+<i class="ri-strategy-line ri-lg"></i>
+</div>
+<h4 class="text-lg font-medium mb-2">Product Strategy</h4>
+<p class="text-gray-400 text-sm">Developing user-centered roadmaps and feature prioritization</p>
+</div>
+<div class="glass p-6 !rounded-lg hover:neon-border transition-all">
+<div class="w-12 h-12 flex items-center justify-center mb-4 glass !rounded-full text-primary">
+<i class="ri-code-s-slash-line ri-lg"></i>
+</div>
+<h4 class="text-lg font-medium mb-2">Flutter Development</h4>
+<p class="text-gray-400 text-sm">Building cross-platform applications with modern UI/UX</p>
+</div>
+<div class="glass p-6 !rounded-lg hover:neon-border transition-all">
+<div class="w-12 h-12 flex items-center justify-center mb-4 glass !rounded-full text-primary">
+<i class="ri-team-line ri-lg"></i>
+</div>
+<h4 class="text-lg font-medium mb-2">Team Collaboration</h4>
+<p class="text-gray-400 text-sm">Effective communication and cross-functional leadership</p>
+</div>
+<div class="glass p-6 !rounded-lg hover:neon-border transition-all">
+<div class="w-12 h-12 flex items-center justify-center mb-4 glass !rounded-full text-primary">
+<i class="ri-user-heart-line ri-lg"></i>
+</div>
+<h4 class="text-lg font-medium mb-2">UX Focus</h4>
+<p class="text-gray-400 text-sm">Creating intuitive and delightful user experiences</p>
+</div>
+</div>
+<div class="mt-8">
+<h3 class="text-xl font-semibold mb-4">Technical Skills</h3>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between mb-1">
+<span class="text-sm text-gray-300">Flutter & Dart</span>
+<span class="text-sm text-gray-400">85%</span>
+</div>
+<div class="skill-progress">
+<div class="skill-progress-bar" style="width: 85%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-1">
+<span class="text-sm text-gray-300">Firebase</span>
+<span class="text-sm text-gray-400">80%</span>
+</div>
+<div class="skill-progress">
+<div class="skill-progress-bar" style="width: 80%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-1">
+<span class="text-sm text-gray-300">Next.js</span>
+<span class="text-sm text-gray-400">70%</span>
+</div>
+<div class="skill-progress">
+<div class="skill-progress-bar" style="width: 70%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-1">
+<span class="text-sm text-gray-300">Product Management</span>
+<span class="text-sm text-gray-400">95%</span>
+</div>
+<div class="skill-progress">
+<div class="skill-progress-bar" style="width: 95%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-10 glass p-6 !rounded-lg border-l-4 border-primary">
+<p class="text-gray-300 italic">
+"To grow as a versatile technology leader who builds meaningful products by blending management insight with development skills."
+</p>
+<p class="text-sm text-gray-400 mt-2">My Personal Vision</p>
+</div>
+</div>
+</div>
+</section>
+<section id="projects" class="py-20 relative">
+<div class="container mx-auto px-6">
+<h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+<span class="gradient-text">Featured Projects</span>
+</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="project-card glass p-6 !rounded-lg">
+<div class="h-48 mb-6 overflow-hidden !rounded-lg">
+<img src="https://readdy.ai/api/search-image?query=modern%20chat%20application%20interface%20with%20OTP%20verification%20screen%2C%20mobile%20app%20UI%20design%2C%20clean%20and%20minimal%20design%20with%20blue%20and%20cyan%20color%20scheme%2C%20professional%20UI%20mockup%20on%20dark%20background%2C%20high-quality%20digital%20render&width=600&height=400&seq=project1&orientation=landscape" alt="FaizoWorld" class="w-full h-full object-cover object-top">
+</div>
+<h3 class="text-xl font-semibold mb-2">FaizoWorld</h3>
+<p class="text-gray-400 text-sm mb-4">OTP-based secure chat application with end-to-end encryption and modern UI design.</p>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="text-xs px-3 py-1 glass !rounded-full text-primary">Flutter</span>
+<span class="text-xs px-3 py-1 glass !rounded-full text-primary">Firebase</span>
+<span class="text-xs px-3 py-1 glass !rounded-full text-primary">GetX</span>
+</div>
+<div class="flex gap-3 mt-auto">
+<a href="#" class="px-4 py-2 glass text-white text-sm font-medium !rounded-button hover:neon-border transition-all whitespace-nowrap">
+<i class="ri-eye-line mr-1"></i> Live Demo
+</a>
+<a href="https://github.com/jawad3136" data-readdy="true" class="px-4 py-2 glass text-white text-sm font-medium !rounded-button hover:neon-border transition-all whitespace-nowrap">
+<i class="ri-github-line mr-1"></i> GitHub
+</a>
+</div>
+</div>
+<div class="project-card glass p-6 !rounded-lg">
+<div class="h-48 mb-6 overflow-hidden !rounded-lg">
+<img src="https://readdy.ai/api/search-image?query=3D%20mobile%20shooting%20game%20interface%2C%20offline%20first-person%20shooter%20game%20UI%20with%20futuristic%20HUD%20elements%2C%20dark%20blue%20and%20cyan%20color%20scheme%2C%20high-quality%203D%20game%20screenshot%20on%20mobile%20device%2C%20professional%20game%20design&width=600&height=400&seq=project2&orientation=landscape" alt="FaTi Warzone" class="w-full h-full object-cover object-top">
+</div>
+<h3 class="text-xl font-semibold mb-2">FaTi Warzone</h3>
+<p class="text-gray-400 text-sm mb-4">Offline 3D mobile shooting game with immersive gameplay and advanced physics engine.</p>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="text-xs px-3 py-1 glass !rounded-full text-primary">Unity</span>
+<span class="text-xs px-3 py-1 glass !rounded-full text-primary">C#</span>
+<span class="text-xs px-3 py-1 glass !rounded-full text-primary">3D Modeling</span>
+</div>
+<div class="flex gap-3 mt-auto">
+<a href="#" class="px-4 py-2 glass text-white text-sm font-medium !rounded-button hover:neon-border transition-all whitespace-nowrap">
+<i class="ri-google-play-line mr-1"></i> Play Store
+</a>
+<a href="https://github.com/jawad3136" data-readdy="true" class="px-4 py-2 glass text-white text-sm font-medium !rounded-button hover:neon-border transition-all whitespace-nowrap">
+<i class="ri-github-line mr-1"></i> GitHub
+</a>
+</div>
+</div>
+<div class="project-card glass p-6 !rounded-lg">
+<div class="h-48 mb-6 overflow-hidden !rounded-lg">
+<img src="https://readdy.ai/api/search-image?query=modern%20business%20website%20design%20for%20product%20showcase%2C%20professional%20e-commerce%20platform%20with%20clean%20UI%2C%20dark%20theme%20with%20blue%20and%20cyan%20accents%2C%20responsive%20web%20design%20mockup%2C%20high-quality%20digital%20render%20of%20business%20website&width=600&height=400&seq=project3&orientation=landscape" alt="Probashi Enterprise" class="w-full h-full object-cover object-top">
+</div>
+<h3 class="text-xl font-semibold mb-2">Probashi Enterprise</h3>
+<p class="text-gray-400 text-sm mb-4">Product business site with e-commerce capabilities and integrated payment processing.</p>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="text-xs px-3 py-1 glass !rounded-full text-primary">Next.js</span>
+<span class="text-xs px-3 py-1 glass !rounded-full text-primary">Tailwind CSS</span>
+<span class="text-xs px-3 py-1 glass !rounded-full text-primary">Stripe</span>
+</div>
+<div class="flex gap-3 mt-auto">
+<a href="#" class="px-4 py-2 glass text-white text-sm font-medium !rounded-button hover:neon-border transition-all whitespace-nowrap">
+<i class="ri-eye-line mr-1"></i> Live Site
+</a>
+<a href="https://github.com/jawad3136" data-readdy="true" class="px-4 py-2 glass text-white text-sm font-medium !rounded-button hover:neon-border transition-all whitespace-nowrap">
+<i class="ri-github-line mr-1"></i> GitHub
+</a>
+</div>
+</div>
+</div>
+<div class="mt-12 flex justify-center">
+<a href="https://github.com/jawad3136" data-readdy="true" class="px-6 py-3 glass text-white font-medium !rounded-button hover:neon-border transition-all whitespace-nowrap">
+<i class="ri-github-line mr-2"></i> View More on GitHub
+</a>
+</div>
+</div>
+</section>
+<section id="contact" class="py-20 relative">
+<div class="container mx-auto px-6">
+<h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+<span class="gradient-text">Get In Touch</span>
+</h2>
+<div class="glass p-8 !rounded-lg neon-border">
+<div class="flex flex-col md:flex-row gap-10">
+<div class="w-full md:w-1/2">
+<h3 class="text-2xl font-semibold mb-6">Contact Me</h3>
+<p class="text-gray-300 mb-8">
+Have a project in mind or want to discuss collaboration opportunities? Feel free to reach out through the form or direct channels.
+</p>
+<div class="space-y-6">
+<div class="flex items-center">
+<div class="w-12 h-12 flex items-center justify-center glass !rounded-full text-primary mr-4">
+<i class="ri-mail-line ri-lg"></i>
+</div>
+<div>
+<h4 class="text-sm text-gray-400">Email</h4>
+<a href="mailto:hjtihan31@gmail.com" class="text-white hover:text-primary transition-colors">hjtihan31@gmail.com</a>
+</div>
+</div>
+<div class="flex items-center">
+<div class="w-12 h-12 flex items-center justify-center glass !rounded-full text-primary mr-4">
+<i class="ri-whatsapp-line ri-lg"></i>
+</div>
+<div>
+<h4 class="text-sm text-gray-400">WhatsApp</h4>
+<a href="https://wa.me/8801878376588" class="text-white hover:text-primary transition-colors">+880 187 837 6588</a>
+</div>
+</div>
+<div class="flex items-center">
+<div class="w-12 h-12 flex items-center justify-center glass !rounded-full text-primary mr-4">
+<i class="ri-telegram-line ri-lg"></i>
+</div>
+<div>
+<h4 class="text-sm text-gray-400">Telegram</h4>
+<p class="text-gray-300">Coming soon</p>
+</div>
+</div>
+<div class="flex items-center">
+<div class="w-12 h-12 flex items-center justify-center glass !rounded-full text-primary mr-4">
+<i class="ri-linkedin-line ri-lg"></i>
+</div>
+<div>
+<h4 class="text-sm text-gray-400">LinkedIn</h4>
+<p class="text-gray-300">Coming soon</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:w-1/2">
+<form class="space-y-6">
+<div>
+<label for="name" class="block text-sm font-medium text-gray-300 mb-2">Name</label>
+<input type="text" id="name" class="w-full px-4 py-3 !rounded-lg border-none focus:ring-2 focus:ring-primary text-sm" placeholder="Your name">
+</div>
+<div>
+<label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+<input type="email" id="email" class="w-full px-4 py-3 !rounded-lg border-none focus:ring-2 focus:ring-primary text-sm" placeholder="your.email@example.com">
+</div>
+<div>
+<label for="message" class="block text-sm font-medium text-gray-300 mb-2">Message</label>
+<textarea id="message" rows="5" class="w-full px-4 py-3 !rounded-lg border-none focus:ring-2 focus:ring-primary text-sm" placeholder="Your message here..."></textarea>
+</div>
+<div class="flex items-center">
+<label class="custom-switch mr-3">
+<input type="checkbox" checked>
+<span class="switch-slider"></span>
+</label>
+<span class="text-sm text-gray-300">I'm interested in collaboration opportunities</span>
+</div>
+<button type="submit" class="w-full px-6 py-3 bg-primary text-white font-medium !rounded-button hover:bg-opacity-80 transition-all whitespace-nowrap">
+Send Message
+</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="py-10 relative">
+<div class="container mx-auto px-6 text-center">
+<p class="text-gray-400 mb-4">© 2025 TihanVerse. Built with <span class="text-primary">❤️</span> using Next.js & Three.js</p>
+<div class="flex justify-center space-x-6 mb-6">
+<a href="https://github.com/jawad3136" data-readdy="true" class="w-10 h-10 flex items-center justify-center glass !rounded-full text-white hover:text-primary transition-colors">
+<i class="ri-github-line ri-lg"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center glass !rounded-full text-white hover:text-primary transition-colors">
+<i class="ri-linkedin-line ri-lg"></i>
+</a>
+<a href="https://x.com/hjtihan3" data-readdy="true" class="w-10 h-10 flex items-center justify-center glass !rounded-full text-white hover:text-primary transition-colors">
+<i class="ri-twitter-x-line ri-lg"></i>
+</a>
+<a href="https://www.instagram.com/hjtihan/" data-readdy="true" class="w-10 h-10 flex items-center justify-center glass !rounded-full text-white hover:text-primary transition-colors">
+<i class="ri-instagram-line ri-lg"></i>
+</a>
+</div>
+<div class="flex justify-center space-x-4 text-sm text-gray-500">
+<a href="#" class="hover:text-primary transition-colors">Privacy Policy</a>
+<span>|</span>
+<a href="#" class="hover:text-primary transition-colors">Terms of Service</a>
+</div>
+</div>
+</footer>
+<script id="mobile-menu-script">
+document.addEventListener('DOMContentLoaded', function() {
+const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+mobileMenuButton.addEventListener('click', function() {
+if (mobileMenu.classList.contains('scale-y-0')) {
+mobileMenu.classList.remove('scale-y-0');
+mobileMenu.classList.add('scale-y-100');
+mobileMenuButton.innerHTML = '<i class="ri-close-line ri-lg"></i>';
+} else {
+mobileMenu.classList.remove('scale-y-100');
+mobileMenu.classList.add('scale-y-0');
+mobileMenuButton.innerHTML = '<i class="ri-menu-line ri-lg"></i>';
+}
+});
+const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+mobileMenuLinks.forEach(link => {
+link.addEventListener('click', function() {
+mobileMenu.classList.remove('scale-y-100');
+mobileMenu.classList.add('scale-y-0');
+mobileMenuButton.innerHTML = '<i class="ri-menu-line ri-lg"></i>';
+});
+});
+});
+</script>
+<script id="typing-effect-script">
+document.addEventListener('DOMContentLoaded', function() {
+const typingTextElement = document.getElementById('typing-text');
+const texts = ["Product Manager", "Flutter Enthusiast", "UI/UX Enthusiast"];
+let textIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+let typingDelay = 100;
+function type() {
+const currentText = texts[textIndex];
+if (isDeleting) {
+typingTextElement.textContent = currentText.substring(0, charIndex - 1);
+charIndex--;
+typingDelay = 50;
+} else {
+typingTextElement.textContent = currentText.substring(0, charIndex + 1);
+charIndex++;
+typingDelay = 100;
+}
+if (!isDeleting && charIndex === currentText.length) {
+isDeleting = true;
+typingDelay = 1000;
+} else if (isDeleting && charIndex === 0) {
+isDeleting = false;
+textIndex = (textIndex + 1) % texts.length;
+typingDelay = 500;
+}
+setTimeout(type, typingDelay);
+}
+setTimeout(type, 1000);
+});
+</script>
+<script id="particles-script">
+document.addEventListener('DOMContentLoaded', function() {
+const particlesContainer = document.getElementById('particles');
+const particleCount = 50;
+for (let i = 0; i < particleCount; i++) {
+const particle = document.createElement('div');
+particle.classList.add('particle');
+const size = Math.random() * 5 + 2;
+particle.style.width = `${size}px`;
+particle.style.height = `${size}px`;
+const posX = Math.random() * 100;
+const posY = Math.random() * 100;
+particle.style.left = `${posX}%`;
+particle.style.top = `${posY}%`;
+const duration = Math.random() * 20 + 10;
+const delay = Math.random() * 5;
+particle.style.animation = `float ${duration}s ${delay}s infinite ease-in-out`;
+particlesContainer.appendChild(particle);
+}
+const style = document.createElement('style');
+style.textContent = `
+@keyframes float {
+0%, 100% { transform: translate(0, 0); }
+25% { transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px); }
+50% { transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px); }
+75% { transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px); }
+}
+`;
+document.head.appendChild(style);
+});
+</script>
+<script id="smooth-scroll-script">
+document.addEventListener('DOMContentLoaded', function() {
+const links = document.querySelectorAll('a[href^="#"]');
+links.forEach(link => {
+link.addEventListener('click', function(e) {
+e.preventDefault();
+const targetId = this.getAttribute('href');
+if (targetId === '#') return;
+const targetElement = document.querySelector(targetId);
+if (targetElement) {
+window.scrollTo({
+top: targetElement.offsetTop - 80,
+behavior: 'smooth'
+});
+}
+});
+});
+});
+</script>
+</body>
+</html>
